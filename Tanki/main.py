@@ -1,18 +1,22 @@
+import sys
+from tkinter import Button
+
 import pygame
 from random import randint
+
+from pygame import display
 
 pygame.init()
 
 WIDTH, HEIGHT = 800, 600
 FPS = 60
-TILE = 32
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 fontUI = pygame.font.Font(None, 30)
 
-imgBrick = pygame.image.load('images/block_brick.png')
+imgBrick = pygame.image.load('images/brick.png')
 imgTanks = [
     pygame.image.load('images/tank1.png'),
     pygame.image.load('images/tank2.png'),
@@ -29,8 +33,8 @@ imgBangs = [
     pygame.image.load('images/bang3.png'),
 ]
 imgBonuses = [
-    pygame.image.load('images/bonus_star.png'),
-    pygame.image.load('images/bonus_tank.png'),
+    pygame.image.load('images/star.png'),
+    pygame.image.load('images/tank.png'),
 ]
 
 DIRECTS = [[0, -1], [1, 0], [0, 1], [-1, 0]]
@@ -39,6 +43,7 @@ MOVE_SPEED = [1, 2, 2, 1, 2, 3, 3, 2]
 BULLET_SPEED = [4, 5, 6, 5, 5, 5, 6, 7]
 BULLET_DAMAGE = [1, 1, 2, 3, 2, 2, 3, 4]
 SHOT_DELAY = [60, 50, 30, 40, 30, 25, 25, 30]
+SIZE = 32
 
 
 class UI:
@@ -70,7 +75,7 @@ class Tank:
         self.type = 'tank'
 
         self.color = color
-        self.rect = pygame.Rect(px, py, TILE, TILE)
+        self.rect = pygame.Rect(px, py, SIZE, SIZE)
         self.direct = direct
         self.hp = 5
         self.shotTimer = 0
@@ -242,16 +247,16 @@ ui = UI()
 
 for _ in range(50):
     while True:
-        x = randint(0, WIDTH // TILE - 1) * TILE
-        y = randint(1, HEIGHT // TILE - 1) * TILE
-        rect = pygame.Rect(x, y, TILE, TILE)
+        x = randint(0, WIDTH // SIZE - 1) * SIZE
+        y = randint(1, HEIGHT // SIZE - 1) * SIZE
+        rect = pygame.Rect(x, y, SIZE, SIZE)
         fined = False
         for obj in objects:
             if rect.colliderect(obj.rect): fined = True
 
         if not fined: break
 
-    Block(x, y, TILE)
+    Block(x, y, SIZE)
 
 bonusTimer = 180
 
